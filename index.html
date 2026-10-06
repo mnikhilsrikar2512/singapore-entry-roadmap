@@ -1,0 +1,897 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singapore Entry Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky section rail + single reading column; roadmap as a vertical week-scaled track with checklist cards */
+:root{
+  --bg:#f3f6f6; --surface:#ffffff; --surface-2:#e8eeee; --fg:#14232a; --muted:#56666c; --line:#d3dcdd;
+  --accent:#0b6e6e; --accent-ink:#ffffff; --marigold:#d98a0b; --marigold-soft:#fbefd9;
+  --ok:#2e7d4f; --ok-soft:#e1f2e7; --warn:#a85d00; --warn-soft:#fdf0dc; --crit:#b3261e; --crit-soft:#fbe4e2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f181b; --surface:#162327; --surface-2:#1e2f34; --fg:#e4eded; --muted:#9db0b4; --line:#2c4046;
+  --accent:#4fc2bd; --accent-ink:#06201f; --marigold:#f0aa3c; --marigold-soft:#3a2c12;
+  --ok:#6fcf97; --ok-soft:#173326; --warn:#f2b04f; --warn-soft:#3a2a10; --crit:#f28b82; --crit-soft:#3b1a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f181b; --surface:#162327; --surface-2:#1e2f34; --fg:#e4eded; --muted:#9db0b4; --line:#2c4046;
+  --accent:#4fc2bd; --accent-ink:#06201f; --marigold:#f0aa3c; --marigold-soft:#3a2c12;
+  --ok:#6fcf97; --ok-soft:#173326; --warn:#f2b04f; --warn-soft:#3a2a10; --crit:#f28b82; --crit-soft:#3b1a18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+h2{font-size:1.75rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.12rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono)}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
+
+/* header */
+header.top{padding-block:36px 24px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:1px solid var(--line)}
+header.top h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.025em}
+header.top h1 .route{color:var(--accent)}
+header.top .lede{max-width:62ch;color:var(--muted);margin-top:10px}
+.progress-card{min-width:240px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar > i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.progress-card .big{font-family:var(--display);font-size:1.9rem;font-weight:700}
+.progress-card .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:6px 12px;font-size:.85rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{border-color:var(--crit);color:var(--crit)}
+
+/* nav */
+nav.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.rail ul{display:flex;gap:4px;list-style:none;margin:0;padding:8px 0;overflow-x:auto;scrollbar-width:none}
+nav.rail a{display:block;white-space:nowrap;padding:6px 12px;border-radius:99px;text-decoration:none;color:var(--muted);font-weight:500;font-size:.9rem}
+nav.rail a:hover,nav.rail a.on{background:var(--surface-2);color:var(--fg)}
+
+section.block{padding-top:48px;scroll-margin-top:56px}
+.sec-head{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;max-width:72ch}
+.sec-head p{color:var(--muted)}
+
+/* glance */
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.facts{grid-template-columns:minmax(0,1fr)}}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.fact b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+.fact span{color:var(--muted);font-size:.85rem}
+.callout{border-left:4px solid var(--marigold);background:var(--marigold-soft);padding:12px 16px;border-radius:0 var(--r) var(--r) 0;margin-top:16px}
+.callout.crit{border-color:var(--crit);background:var(--crit-soft)}
+.callout b{font-weight:600}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.rec{background:var(--ok-soft)}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 8px;border-radius:99px;letter-spacing:.04em;white-space:nowrap}
+.pill.sg{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.pill.in{background:var(--marigold-soft);color:var(--warn)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.wk{background:var(--surface-2);color:var(--muted)}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+
+/* gantt */
+.gantt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;overflow-x:auto;margin-bottom:24px}
+.g-grid{min-width:720px;display:grid;grid-template-columns:230px 1fr;row-gap:8px;align-items:center}
+.g-scale{display:grid;grid-template-columns:repeat(16,1fr);font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+.g-track{position:relative;height:22px;display:grid;grid-template-columns:repeat(16,1fr)}
+.g-track s{border-left:1px solid var(--line)}
+.g-track s:last-of-type{border-right:1px solid var(--line)}
+.g-scale span{padding-left:4px}
+.g-track i{position:absolute;top:3px;bottom:3px;border-radius:4px;background:var(--accent)}
+.g-track i.in{background:var(--marigold)}
+.g-label{font-size:.85rem;font-weight:500;padding-right:10px}
+
+/* phases */
+.phase{display:grid;grid-template-columns:64px 1fr;gap:16px;margin-bottom:18px}
+.phase-mark{display:flex;flex-direction:column;align-items:center}
+.phase-mark .n{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.2rem;background:var(--surface);border:2px solid var(--accent);color:var(--accent)}
+.phase.done .phase-mark .n{background:var(--accent);color:var(--accent-ink)}
+.phase-mark .stem{flex:1;width:2px;background:var(--line);margin-top:6px}
+.phase-body{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.phase-head{padding:16px 18px;display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.phase-head .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.phase-head .goal{color:var(--muted);font-size:.9rem;margin-top:6px;max-width:70ch}
+.ph-no{display:none;margin-bottom:4px}
+.phase-count{font-family:var(--mono);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.phase ul.checks{list-style:none;margin:0;padding:6px 0}
+.checks li{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:9px 18px;border-bottom:1px dashed var(--line)}
+.checks li:last-child{border-bottom:0}
+.checks input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.checks label{cursor:pointer}
+.checks .t{font-weight:500}
+.checks .d{color:var(--muted);font-size:.86rem;display:block}
+.checks li.is-done .t{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
+.checks .tags{display:inline-flex;gap:6px;margin-left:6px;vertical-align:1px}
+.phase-foot{padding:12px 18px;background:var(--surface-2);border-radius:0 0 var(--r) var(--r);font-size:.85rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.phase-foot b{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;font-weight:500}
+
+/* templates */
+.tpl-wrap{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.tpl-list{display:flex;flex-direction:column;gap:4px;position:sticky;top:64px}
+.tpl-list button{text-align:left;background:transparent;border:1px solid transparent;border-radius:8px;padding:8px 12px;color:var(--fg)}
+.tpl-list button small{display:block;color:var(--muted);font-size:.78rem}
+.tpl-list button.on{background:var(--surface);border-color:var(--line)}
+.tpl-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.tpl-card header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.tpl-card .use{padding:12px 18px;color:var(--muted);font-size:.88rem;border-bottom:1px solid var(--line)}
+.tpl-card pre.fixed{font-family:var(--mono);font-size:.8rem;white-space:pre;word-break:normal;overflow-x:auto}
+.tpl-card pre{margin:0;padding:18px;font-family:var(--body);font-size:.88rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:620px;overflow:auto}
+.tpl-card .tbl{border:0;border-radius:0}
+
+/* costs */
+.calc{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+.inputs{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.inputs label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;font-weight:500}
+.inputs input,.inputs select{width:100%;min-width:0;font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.inputs .chk{flex-direction:row;align-items:center;gap:10px;font-weight:400}
+.inputs input[type=checkbox]{width:18px;height:18px;flex:none;padding:0;accent-color:var(--accent)}
+.totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:12px}
+td.amt,th.amt{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td small.b{display:none;color:var(--muted);font-size:.8rem}
+tr.sub td{font-weight:600;background:var(--surface-2)}
+
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cal .m.wide{grid-column:1/-1}
+.cal .m.wide ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 20px}
+@media (max-width:980px){.cal{grid-template-columns:repeat(2,minmax(0,1fr))}.cal .m.wide ul{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.cal{grid-template-columns:minmax(0,1fr)}}
+.cal .m{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.cal .m h3{font-size:1rem;margin-bottom:8px}
+.cal .m ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:.86rem}
+.cal .m li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start}
+
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.links a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;text-decoration:none;color:var(--fg)}
+.links a:hover{border-color:var(--accent)}
+.links a span{display:block;color:var(--muted);font-size:.84rem}
+footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem;max-width:90ch}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:99px;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+
+
+/* advisors */
+.muted{color:var(--muted)} .small{font-size:.84rem}
+.rec-box{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:0;background:var(--surface);border:1px solid var(--accent);border-radius:var(--r);overflow:hidden}
+.rec-main{padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.rec-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+.rec-side{background:color-mix(in srgb,var(--accent) 10%,var(--surface));padding:18px 20px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line)}
+.rec-side .big{font-family:var(--display);font-size:1.7rem;font-weight:700}
+.rec-side p{font-size:.85rem;color:var(--muted)}
+.pill.rec{background:var(--accent);color:var(--accent-ink)}
+.rec-main > .pill{align-self:flex-start}
+.tbl.wide table{min-width:780px}
+.adv.span{grid-column:1/-1}
+.pill.alt{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.pill.bud{background:var(--marigold-soft);color:var(--warn)}
+.pill.spec{background:var(--surface-2);color:var(--fg)}
+tr.hl td{background:var(--ok-soft)}
+.adv-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:99px;padding:5px 12px;font-size:.85rem}
+.chips button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.adv-actions{display:flex;gap:10px;align-items:center}
+.adv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.adv{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;min-width:0}
+.adv.short{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.adv-head{padding:14px 16px 10px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.adv-head h4{font-family:var(--display);font-size:1.1rem;margin:0;font-weight:700}
+.adv-head .sub{font-size:.82rem;color:var(--muted);margin-top:2px}
+.adv-tags{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px}
+.adv-body{padding:10px 16px 14px;display:flex;flex-direction:column;gap:10px;font-size:.88rem;flex:1}
+.adv-body .addr{background:var(--marigold-soft);margin:0 -16px;padding:8px 16px}
+.adv-body b.l{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:2px}
+.adv-body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.adv-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--line);background:var(--surface-2);border-radius:0 0 var(--r) var(--r);font-size:.85rem}
+.adv-foot label{display:flex;gap:6px;align-items:center;cursor:pointer;font-weight:500}
+.adv-foot input{width:17px;height:17px;accent-color:var(--accent)}
+.adv-foot .cost{font-variant-numeric:tabular-nums}
+.checks.plain{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-top:10px;padding:6px 0;list-style:none}
+@media (max-width:820px){.rec-box{grid-template-columns:minmax(0,1fr)}.rec-side{border-left:0;border-top:1px solid var(--line)}.adv-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:820px){
+  header.top{grid-template-columns:1fr}
+  .tpl-wrap,.calc{grid-template-columns:minmax(0,1fr)}
+  .tpl-list{position:static;flex-direction:row;overflow-x:auto}
+  .tpl-list button{white-space:nowrap}
+  .tpl-list button small{display:none}
+  .phase{grid-template-columns:1fr}
+  .g-grid{grid-template-columns:132px 1fr;min-width:600px}
+  .g-label{font-size:.78rem;line-height:1.3}
+  .phase-mark{display:none}
+  .ph-no{display:block}
+  .cost-basis{display:none}
+  td small.b{display:block}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style></head><body>
+
+<div class="wrap">
+<header class="top">
+  <div>
+    <div class="eyebrow">Expansion playbook · India → Singapore · rules checked 5 Oct 2026</div>
+    <h1>Singapore Entry Roadmap <span class="route">IN → SG</span></h1>
+    <p class="lede">A step-by-step plan for an Indian IT company to set up a Singapore private limited subsidiary: Indian approvals, incorporation, banking, tax, hiring and the first year of compliance. Tick items as you finish them. Your progress stays in this browser.</p>
+  </div>
+  <div class="progress-card" aria-live="polite">
+    <div class="eyebrow">Overall progress</div>
+    <div class="big num" id="pctBig">0%</div>
+    <div class="bar"><i id="pctBar"></i></div>
+    <div class="phase-count" id="pctText" style="margin-top:6px">0 of 0 tasks</div>
+    <div class="row">
+      <button class="btn" id="copyStatus">Copy status report</button>
+      <button class="btn danger" id="resetBtn">Reset</button>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <ul>
+    <li><a href="#glance">At a glance</a></li>
+    <li><a href="#structure">Choose structure</a></li>
+    <li><a href="#advisors">Set-up partners</a></li>
+    <li><a href="#roadmap">Roadmap & checklists</a></li>
+    <li><a href="#templates">Sample formats</a></li>
+    <li><a href="#costs">Cost estimator</a></li>
+    <li><a href="#calendar">Compliance calendar</a></li>
+    <li><a href="#tax">Tax & transfer pricing</a></li>
+    <li><a href="#portals">Portals</a></li>
+  </ul>
+</nav>
+
+<!-- GLANCE -->
+<section class="block" id="glance">
+  <div class="sec-head"><div class="eyebrow">01 · Summary</div><h2>At a glance</h2>
+  <p>The numbers that shape the plan. Figures are the official or widely published rates as of October 2026; confirm them with your advisors before you commit money.</p></div>
+  <div class="facts">
+    <div class="fact"><b class="num">10–14 weeks</b><span>Realistic time from board approval in India to first employee working in Singapore</span></div>
+    <div class="fact"><b class="num">S$315</b><span>ACRA government fees (S$15 name + S$300 incorporation). Approval in 1–3 working days if clean</span></div>
+    <div class="fact"><b class="num">17%</b><span>Singapore corporate tax, with partial exemption on the first S$200k of chargeable income</span></div>
+    <div class="fact"><b class="num">S$5,600 → S$6,000</b><span>Employment Pass minimum monthly salary (rises for new applications from Jan 2027; age-scaled up to S$11,500)</span></div>
+    <div class="fact"><b class="num">1 resident director</b><span>At least one director must ordinarily live in Singapore (citizen, PR or EP holder)</span></div>
+    <div class="fact"><b class="num">400% of net worth</b><span>Automatic-route ODI limit for the Indian parent. File Form ODI Part I with your AD bank before remitting</span></div>
+  </div>
+  <div class="callout crit"><b>Most common mistake:</b> remitting share capital to Singapore before the AD bank has accepted Form ODI Part I and issued a UIN. That is a FEMA contravention that needs compounding. Do Phase 1 before any money moves.</div>
+  <div class="callout"><b>Corporate shareholder note:</b> the Start-Up Tax Exemption needs at least one individual shareholder with 10% or more. A Singapore company 100% owned by your Indian company does not qualify; it gets the Partial Tax Exemption instead (75% of the first S$10k, 50% of the next S$190k).</div>
+</section>
+
+<!-- STRUCTURE -->
+<section class="block" id="structure">
+  <div class="sec-head"><div class="eyebrow">02 · Decision</div><h2>Choose the right structure</h2>
+  <p>For an IT company that will sign Singapore clients, hire locally and invoice in SGD, a wholly owned Private Limited subsidiary is the usual choice. The highlighted column is the recommendation.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Factor</th><th>Private Limited subsidiary</th><th>Branch of Indian company</th><th>Representative office</th></tr></thead>
+    <tbody>
+      <tr><td>Legal status</td><td class="rec">Separate Singapore company; liability ring-fenced from India parent</td><td>Extension of Indian company; parent fully liable</td><td>Not a legal entity; liaison only</td></tr>
+      <tr><td>Can sign contracts and invoice</td><td class="rec">Yes</td><td>Yes</td><td>No revenue activity allowed</td></tr>
+      <tr><td>Tax</td><td class="rec">17% with partial exemption; Singapore tax resident if managed and controlled in Singapore</td><td>17%, no local tax exemptions; not Singapore tax resident</td><td>No tax (no income)</td></tr>
+      <tr><td>Government grants and EDB incentives</td><td class="rec">Eligible (e.g. EDG, PSG need 30% local shareholding, so check)</td><td>Mostly not eligible</td><td>Not eligible</td></tr>
+      <tr><td>Indian approvals</td><td class="rec">ODI under FEMA OI Rules 2022 (automatic route)</td><td>Overseas branch rules via AD bank</td><td>Overseas office via AD bank</td></tr>
+      <tr><td>Client perception</td><td class="rec">Strong; local UEN and SGD bank account</td><td>Moderate</td><td>Weak; time-limited (max 3 years)</td></tr>
+      <tr><td>Best for</td><td class="rec">Selling, hiring and building an APAC hub</td><td>Short projects billed by parent</td><td>Market research before committing</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ADVISORS -->
+<section class="block" id="advisors">
+  <div class="sec-head"><div class="eyebrow">03 · Partners</div><h2>Choose your set-up partner</h2>
+  <p>Five Singapore incorporation providers that work with Indian companies, starting with the two you picked: <b>ScaleX Business</b> and <b>CorporateServices.com</b>. Some handle both the Indian ODI filing and the Singapore company; others handle Singapore only and need your CA for the Indian side. Tick <b>Shortlist</b> on the firms you will ask for quotes.</p></div>
+
+  <div class="rec-box">
+    <div class="rec-main">
+      <span class="pill rec">Our recommendation</span>
+      <h3>Get two quotes: ScaleX Business and CorporateServices.com</h3>
+      <ol class="rec-steps">
+        <li><b>ScaleX Business</b> as the main option. It is a Singapore company (since 2018) and an ACRA-registered filing agent with an India team that also handles the <b>RBI ODI filing</b>. One firm covers both countries, plus accounting, transfer pricing and XBRL later.</li>
+        <li><b>CorporateServices.com</b> as the price benchmark. Its published foreigner package is <b>S$3,100</b> and includes a 1-year nominee director (or an EP filing), secretary and registered address. It has no India office, so your own CA would file the ODI.</li>
+        <li>Choose on <b>total year-1 cost in writing</b>, who files the ODI, and Employment Pass support. If you want a large India-side CA team instead, add <b>Patron Accounting</b> as a third quote.</li>
+      </ol>
+    </div>
+    <div class="rec-side">
+      <div class="eyebrow">Set-up cost, year 1 (estimate)</div>
+      <div class="big num">S$3k – 8k</div>
+      <p>Incorporation, nominee director, secretary and address for one year, plus ODI work in India (about ₹50k–1.5 lakh). Monthly accounting, audit and legal are extra.</p>
+    </div>
+  </div>
+
+  <div class="tbl wide" style="margin-top:16px"><table>
+    <thead><tr><th>Firm</th><th>Published price</th><th>Covers ODI in India</th><th>India presence</th><th>Singapore registration</th><th>Reviews</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><b>ScaleX Business</b> <span class="pill rec">Recommended</span></td><td>Quote only</td><td>Yes</td><td>Yes (city not published)</td><td>Pte Ltd since 2018 · filing agent FA20190135</td><td>500+ businesses served (own claim)</td></tr>
+      <tr class="hl"><td><b>CorporateServices.com</b> <span class="pill rec">Recommended</span></td><td>S$3,100 foreigner package</td><td>No (use your CA)</td><td>No</td><td>Platform used by licensed CSP teams</td><td>5.0 on 109 Google reviews</td></tr>
+      <tr><td><b>Patron Accounting</b></td><td>From S$4,999 + extras</td><td>Yes, incl. APR</td><td>Pune, Mumbai, Delhi, Gurugram</td><td>Works through Singapore partners</td><td>4.9 on 500+ Google reviews</td></tr>
+      <tr><td><b>IncorpX</b></td><td>From ₹39,999 + govt fees</td><td>Ask</td><td>Tamil Nadu (online)</td><td>Facilitation platform</td><td>4.9 Google (all services)</td></tr>
+      <tr><td><b>Leftright Corporate</b></td><td>S$2,495 with 12-month nominee</td><td>No (use your CA)</td><td>No</td><td>Filing agent FA20200114</td><td>–</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="adv-bar">
+    <div class="chips" id="advChips" role="group" aria-label="Filter providers"></div>
+    <div class="adv-actions"><span class="phase-count" id="advCount"></span><button class="btn" id="advCopy" type="button">Copy shortlist</button></div>
+  </div>
+  <div class="adv-grid" id="advGrid"></div>
+
+  <h3 style="margin-top:28px">How to pick: checklist before you sign</h3>
+  <ul class="checks plain" id="advChecks"></ul>
+  <p class="muted small" style="margin-top:12px">Details come from each firm's website and Singapore company records, checked on 5 October 2026. None of these firms publishes a Hyderabad office; ask about meetings in Hyderabad or online. Review counts are self-reported on the firms' sites. Prices change, so get a written quote. We have no commercial relationship with any firm.</p>
+</section>
+
+<!-- ROADMAP -->
+<section class="block" id="roadmap">
+  <div class="sec-head"><div class="eyebrow">04 · Execution</div><h2>Roadmap & checklists</h2>
+  <p>Seven phases over about 16 weeks. Teal bars run in Singapore, marigold bars run in India. Phases overlap; the order inside each phase matters.</p></div>
+  <div class="gantt"><div class="g-grid" id="gantt"></div></div>
+  <div id="phases"></div>
+</section>
+
+<!-- TEMPLATES -->
+<section class="block" id="templates">
+  <div class="sec-head"><div class="eyebrow">05 · Formats</div><h2>Sample formats</h2>
+  <p>Ready-to-adapt drafts of the documents and data sheets you will need. Replace the bracketed fields, then have your CS, CA or Singapore lawyer review before use.</p></div>
+  <div class="tpl-wrap">
+    <div class="tpl-list" id="tplList" role="tablist"></div>
+    <div class="tpl-card" id="tplCard"></div>
+  </div>
+</section>
+
+<!-- COSTS -->
+<section class="block" id="costs">
+  <div class="sec-head"><div class="eyebrow">06 · Budget</div><h2>Year-1 cost estimator</h2>
+  <p>Change the inputs to match your plan. Professional fees are typical market ranges for small set-ups, not quotes. Salaries are the largest line by far.</p></div>
+  <div class="calc">
+    <div class="inputs">
+      <label for="fx">Exchange rate (₹ per S$)<input id="fx" type="number" step="0.1" value="68"></label>
+      <label for="epCount">Employees on Employment Pass<input id="epCount" type="number" min="0" value="2"></label>
+      <label for="epSal">Average EP monthly salary (S$)<input id="epSal" type="number" min="0" step="100" value="8000"></label>
+      <label for="localCount">Local hires (citizens / PRs)<input id="localCount" type="number" min="0" value="1"></label>
+      <label for="localSal">Average local monthly salary (S$)<input id="localSal" type="number" min="0" step="100" value="6500"></label>
+      <label for="office">Office
+        <select id="office">
+          <option value="virtual">Address only (remote team)</option>
+          <option value="hot">Hot desks · S$450/seat</option>
+          <option value="fixed" selected>Dedicated desks · S$850/seat</option>
+          <option value="private">Private office · S$1,100/seat</option>
+        </select></label>
+      <label class="chk" for="nominee"><input id="nominee" type="checkbox" checked> Use a nominee resident director</label>
+      <label class="chk" for="audit"><input id="audit" type="checkbox" checked> Statutory audit required</label>
+    </div>
+    <div style="min-width:0">
+      <div class="totals">
+        <div class="fact"><span>One-time set-up</span><b class="num" id="tOne">–</b><span class="num" id="tOneInr"></span></div>
+        <div class="fact"><span>Annual running (excl. salaries)</span><b class="num" id="tRun">–</b><span class="num" id="tRunInr"></span></div>
+        <div class="fact"><span>Total year 1 incl. people</span><b class="num" id="tAll">–</b><span class="num" id="tAllInr"></span></div>
+      </div>
+      <div class="tbl"><table><thead><tr><th>Item</th><th class="cost-basis">Basis</th><th class="amt">S$</th></tr></thead><tbody id="costRows"></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<section class="block" id="calendar">
+  <div class="sec-head"><div class="eyebrow">07 · Ongoing</div><h2>Annual compliance calendar</h2>
+  <p>Assumes the Singapore company uses a 31 March financial year end to match the Indian parent. Dates move if you choose a different year end.</p></div>
+  <div class="cal" id="cal"></div>
+</section>
+
+<!-- TAX -->
+<section class="block" id="tax">
+  <div class="sec-head"><div class="eyebrow">08 · Money flows</div><h2>Tax & transfer pricing essentials</h2>
+  <p>How money moves between the two companies, and the rules that apply to each flow.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Flow</th><th>Singapore side</th><th>India side</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td><b>Share capital</b> India → SG</td><td>No tax. Issue shares and update register of members</td><td>ODI under FEMA. Form ODI Part I before remitting; evidence of investment to AD bank within 6 months</td><td>Keep the UIN, SWIFT copy and share certificate together</td></tr>
+      <tr><td><b>Services fee</b> SG pays India for delivery work</td><td>Deductible expense. No Singapore withholding when services are performed wholly outside Singapore</td><td>Export of services: GST zero-rated under LUT. Taxable income for the parent</td><td>Intercompany agreement + arm's length markup. IT services safe harbour: 15.5% on cost (Budget 2026), elect for up to 5 years</td></tr>
+      <tr><td><b>Dividend</b> SG → India</td><td>One-tier system; no withholding tax on dividends</td><td>Taxable in India at normal rates; repatriate within 90 days of receipt under ODI rules</td><td>Report in APR; check foreign tax credit position with your CA</td></tr>
+      <tr><td><b>Royalty / licence</b> SG pays India for IP</td><td>Withholding tax; India–Singapore DTAA caps it at 10%</td><td>Taxable; credit for Singapore WHT</td><td>Only if IP stays in India. Do not move IP to Singapore without a valuation and tax advice</td></tr>
+      <tr><td><b>Staff secondment</b></td><td>EP needed if working in Singapore; Singapore payroll tax rules apply</td><td>Permanent establishment risk if Indian staff conclude contracts for SG, or vice versa</td><td>Use a secondment agreement; keep decision-making for each company in its own country</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><b>Keep management in Singapore.</b> Hold board meetings in Singapore (or with the chair in Singapore), keep minutes there and let the resident director take real decisions. This supports Singapore tax residency (needed for a Certificate of Residence and DTAA benefits) and avoids the company being treated as Indian-resident under India's Place of Effective Management test.</div>
+</section>
+
+<!-- PORTALS -->
+<section class="block" id="portals">
+  <div class="sec-head"><div class="eyebrow">09 · Where to file</div><h2>Government portals</h2></div>
+  <div class="links">
+    <a href="https://www.bizfile.gov.sg" target="_blank" rel="noopener">ACRA Bizfile<span>Name reservation, incorporation, annual returns, registers</span></a>
+    <a href="https://www.corppass.gov.sg" target="_blank" rel="noopener">Corppass<span>Corporate digital identity for all Singapore e-services</span></a>
+    <a href="https://mytax.iras.gov.sg" target="_blank" rel="noopener">IRAS myTax Portal<span>ECI, Form C-S / C, GST, employer IR8A filing</span></a>
+    <a href="https://www.mom.gov.sg/passes-and-permits/employment-pass" target="_blank" rel="noopener">MOM Employment Pass<span>COMPASS self-assessment, EP Online, fees</span></a>
+    <a href="https://www.mycareersfuture.gov.sg" target="_blank" rel="noopener">MyCareersFuture<span>Mandatory 14-day job ad under the Fair Consideration Framework</span></a>
+    <a href="https://www.cpf.gov.sg/employer" target="_blank" rel="noopener">CPF Board (employers)<span>CPF and Skills Development Levy for local staff</span></a>
+    <a href="https://www.pdpc.gov.sg" target="_blank" rel="noopener">PDPC<span>PDPA obligations and Data Protection Officer registration</span></a>
+    <a href="https://www.edb.gov.sg" target="_blank" rel="noopener">EDB Singapore<span>Investment incentives and HQ programmes</span></a>
+    <a href="https://www.enterprisesg.gov.sg" target="_blank" rel="noopener">Enterprise Singapore<span>Grants (EDG, MRA) and market access support</span></a>
+    <a href="https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx" target="_blank" rel="noopener">RBI Master Directions<span>Overseas Investment Directions 2022, reporting formats</span></a>
+    <a href="https://www.mca.gov.in" target="_blank" rel="noopener">MCA21<span>Board resolutions filed as MGT-14 where required</span></a>
+    <a href="https://www.incometax.gov.in" target="_blank" rel="noopener">Income Tax India<span>Transfer pricing report, safe harbour option, foreign tax credit</span></a>
+  </div>
+</section>
+
+<footer>
+  <p><b>Important:</b> This roadmap is a planning aid, not legal or tax advice. Rules were checked on 5 October 2026 against published guidance (MOM, ACRA, IRAS, RBI OI Directions 2022 and Union Budget 2026). Thresholds change, especially EP salaries from January 2027. Confirm each step with your Company Secretary and Chartered Accountant in India and a Singapore corporate service provider before filing.</p>
+</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+var PHASES = [
+ {id:"p0", name:"Plan & decide", where:"in", weeks:[0,2], goal:"Agree the structure, budget, people and advisors before any filing.",
+  out:"Signed-off expansion plan and advisor engagement letters", owner:"CEO, CFO, Company Secretary",
+  items:[
+   ["Approve business case for Singapore","Target clients, revenue plan for 3 years, headcount plan, break-even month."],
+   ["Confirm structure: Private Limited subsidiary","Use the structure table above. Record the reasons in the board note."],
+   ["Shortlist 3 company names","Check availability on Bizfile. Avoid names identical to existing entities or trademarks."],
+   ["Decide share capital and funding plan","Common start: S$50,000–S$100,000 paid-up capital, plus working capital for 6–9 months."],
+   ["Pick the financial year end","31 March matches the Indian parent and simplifies consolidation and transfer pricing."],
+   ["Identify the resident director","An employee relocating on EP, a trusted Singapore resident, or a nominee director service until your EP holder arrives."],
+   ["Engage advisors","Singapore corporate service provider (secretary, address, nominee), Indian CA for ODI and TP, Singapore bank relationship manager."],
+   ["Plan IP and data ownership","Decide which company owns code, trademarks and client data. Default: IP stays in India and is licensed."]
+  ]},
+ {id:"p1", name:"Indian approvals & ODI", where:"in", weeks:[1,4], goal:"Get every Indian approval in place so that money can leave India lawfully.",
+  out:"AD bank acknowledgement with UIN; approved board resolution", owner:"Company Secretary, CA, AD bank",
+  items:[
+   ["Check the ODI limit","Total financial commitment must stay within 400% of net worth per the last audited balance sheet."],
+   ["Check Companies Act section 186 limits","If the investment plus existing loans and investments exceed 60% of paid-up capital and free reserves, or 100% of free reserves, pass a special resolution."],
+   ["Pass board resolution for the overseas investment","See sample format A. File MGT-14 with the ROC within 30 days if a special resolution was required."],
+   ["Confirm the activity is a bona fide business","IT services and software are permitted. The Singapore entity must not invest back into India in a way that creates more than two layers or round-tripping."],
+   ["Prepare Form ODI Part I and supporting documents","Board resolution, latest audited financials, net worth certificate, KYC, CA certificate where needed, Singapore entity details."],
+   ["Submit to AD bank and receive UIN","Do not remit anything until the AD bank has processed the form and the UIN is issued."],
+   ["Notify the statutory auditor","They will need ODI papers for the Indian parent's annual audit and for APR certification."]
+  ]},
+ {id:"p2", name:"Incorporate in Singapore", where:"sg", weeks:[3,5], goal:"Register the company with ACRA and get the UEN.",
+  out:"Certificate of Incorporation, business profile, UEN", owner:"Corporate service provider, directors",
+  items:[
+   ["Reserve the company name on Bizfile","S$15, valid for 120 days. Approval is usually immediate unless referred to another agency."],
+   ["Collect director and shareholder KYC","Directors: passport, residential address proof. Corporate shareholder: certificate of incorporation, MoA/AoA, board resolution appointing an authorised representative, ownership chart."],
+   ["Finalise the constitution","Model constitution works for most. Add pre-emption and board quorum rules that suit a wholly owned subsidiary."],
+   ["Arrange the registered office address","Must be a physical address in Singapore that is open at least 3 hours per working day. No P.O. boxes."],
+   ["File incorporation on Bizfile","S$300. Includes directors, shareholders, share capital, SSIC code (e.g. 62011 or 62021) and registered address."],
+   ["Appoint a company secretary within 6 months","Must be ordinarily resident in Singapore. Usually provided by the corporate service provider."],
+   ["Set up registers","Register of members, directors, secretaries, Registrable Controllers (lodge with ACRA) and nominee directors if applicable."],
+   ["Issue share certificate to the Indian parent","You will need it as evidence of investment for the AD bank in India."],
+   ["Register for Corppass","Lets the company log in to IRAS, MOM, CPF and other government portals."]
+  ]},
+ {id:"p3", name:"Bank account & capital", where:"sg", weeks:[5,9], goal:"Open the corporate account and bring in the share capital.",
+  out:"Operational SGD account; capital remitted; ODI reporting complete", owner:"CFO, directors, AD bank",
+  items:[
+   ["Choose the bank","DBS, OCBC or UOB for full relationships; digital banks like Aspire or Airwallex open faster but may not suit large flows."],
+   ["Submit account opening pack","See sample format F. Expect a video or in-person KYC with directors and questions about the group's business."],
+   ["Remit share capital from India quoting the UIN","Use the AD bank that processed Form ODI Part I. Keep the SWIFT confirmation."],
+   ["Submit evidence of investment to the AD bank","Share certificate within 6 months of remittance. A late submission fee applies if you miss it."],
+   ["Set up payment approvals and dual controls","Define who can raise, approve and release payments. Apply the same limits as the parent's delegation of authority."],
+   ["Open a multi-currency or USD sub-account if needed","Useful if clients pay in USD or you pay the Indian parent in INR or USD."]
+  ]},
+ {id:"p4", name:"Tax, contracts & data", where:"sg", weeks:[6,11], goal:"Put the intercompany agreements, tax registrations and data protection basics in place.",
+  out:"Signed intercompany agreements; TP policy; PDPA compliance", owner:"CFO, CA, Singapore lawyer",
+  items:[
+   ["Sign the Intercompany Services Agreement","Singapore company sells to clients; Indian parent delivers. See sample format C for the key terms."],
+   ["Document the transfer pricing policy","India: IT services safe harbour at 15.5% markup on cost can be elected for up to 5 years. Singapore: keep TP documentation if revenue exceeds S$10 million."],
+   ["Check GST registration","Compulsory if taxable turnover exceeds S$1 million in 12 months. Voluntary registration lets you claim input GST but must be kept for 2 years."],
+   ["Plan GST on supplies","Singapore GST is 9%. Services to overseas clients are usually zero-rated; services to Singapore clients are standard-rated once registered."],
+   ["Set up accounting system and chart of accounts","Use SFRS for the Singapore books. Map accounts to the parent's Ind AS chart for consolidation."],
+   ["Appoint a Data Protection Officer","Required under the PDPA. Register the DPO's business contact on Bizfile and publish a privacy notice."],
+   ["Review cross-border data transfers","Client data moving between Singapore and India needs contractual safeguards under PDPA and India's DPDP Act."],
+   ["Buy business insurance","Professional indemnity / errors and omissions, cyber, public liability. Many enterprise clients require them."]
+  ]},
+ {id:"p5", name:"Office & people", where:"sg", weeks:[8,14], goal:"Get a workspace, work passes and payroll ready for the first hires.",
+  out:"First employees on payroll with valid passes", owner:"HR, CEO, corporate service provider",
+  items:[
+   ["Secure office space","Co-working is common in year 1. A tenancy needs the UEN and often a 2–3 month deposit."],
+   ["Advertise roles on MyCareersFuture for 14 days","Required before an EP application under the Fair Consideration Framework. Exempt if the monthly salary is S$22,500 or more, or the company has fewer than 10 employees."],
+   ["Run the COMPASS self-assessment","Need 40 points across salary, qualifications, diversity and local hiring. Use MOM's self-assessment tool first."],
+   ["Apply for Employment Passes","S$105 application fee per pass; S$225 on issuance. Most decisions within about 10 working days. Use sample format D to collect data."],
+   ["Issue employment contracts and Key Employment Terms","Give written KETs within 14 days of the start date. Include IP assignment and confidentiality clauses."],
+   ["Register as an employer with CPF","Pay CPF for citizens and PRs (employer 17% for those 55 and under). Pay the Skills Development Levy for all employees."],
+   ["Buy Work Injury Compensation insurance","Mandatory for manual workers and non-manual staff earning S$2,600 or less a month; recommended for everyone."],
+   ["Set up payroll and leave policies","Monthly payroll, CPF by the 14th of the following month, leave and medical benefits policies."],
+   ["Plan EP salary changes for 2027","New EP applications from January 2027 need at least S$6,000 (S$11,500 at age 45). Renewals follow in 2028."]
+  ]},
+ {id:"p6", name:"Go live & first-year compliance", where:"sg", weeks:[12,16], goal:"Start trading and set up the compliance routine for the year.",
+  out:"First invoices issued; compliance calendar owned", owner:"CFO, company secretary",
+  items:[
+   ["Issue first client invoice from the Singapore company","Use the UEN (and GST number if registered) on all invoices and contracts."],
+   ["Start monthly intercompany billing","Raise the Indian parent's services invoice on actual cost plus agreed markup; reconcile every month."],
+   ["Hold the first board meeting in Singapore","Approve bank mandates, delegation of authority and the compliance calendar. Minute it."],
+   ["Diarise the APR in India","Annual Performance Report for the Singapore entity due by 31 December each year, based on audited financials."],
+   ["Diarise the FLA return in India","Annual Return on Foreign Liabilities and Assets to RBI by 15 July."],
+   ["Set up the Singapore annual compliance cycle","ECI within 3 months of year end, AGM within 6 months, annual return within 7 months, Form C-S/C by 30 November."],
+   ["Apply for grants if eligible","Check EDB and Enterprise Singapore programmes. Many need 30% local shareholding, so confirm eligibility first."]
+  ]}
+];
+
+var KEY="sgroadmap.v1";
+var state={};
+try{ state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}; }catch(e){ state={}; }
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+
+function el(tag,attrs,html){ var n=document.createElement(tag); if(attrs) for(var k in attrs){ n.setAttribute(k,attrs[k]); } if(html!=null) n.innerHTML=html; return n; }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+
+/* Gantt */
+var g=document.getElementById("gantt");
+g.appendChild(el("div",{class:"g-label eyebrow"},"Phase"));
+var sc=el("div",{class:"g-scale"}); for(var w=1;w<=16;w++){ sc.appendChild(el("span",null,"W"+w)); } g.appendChild(sc);
+PHASES.forEach(function(p,i){
+  g.appendChild(el("div",{class:"g-label"},(i)+" · "+esc(p.name)));
+  var t=el("div",{class:"g-track"},new Array(17).join("<s></s>"));
+  var bar=el("i",{class:p.where==="in"?"in":"", title:"Weeks "+(p.weeks[0]+1)+"–"+p.weeks[1]});
+  bar.style.left=(p.weeks[0]/16*100)+"%"; bar.style.width=((p.weeks[1]-p.weeks[0])/16*100)+"%";
+  t.appendChild(bar); g.appendChild(t);
+});
+
+/* Phases */
+var host=document.getElementById("phases");
+PHASES.forEach(function(p,i){
+  var wrap=el("article",{class:"phase",id:"phase-"+p.id});
+  var mark=el("div",{class:"phase-mark"},'<div class="n">'+i+'</div><div class="stem"></div>');
+  var body=el("div",{class:"phase-body"});
+  var tag=p.where==="in"?'<span class="pill in">India</span>':'<span class="pill sg">Singapore</span>';
+  body.innerHTML='<div class="phase-head"><div><div class="eyebrow ph-no">Phase '+i+'</div><h3>'+esc(p.name)+'</h3><div class="meta">'+tag+'<span class="pill wk">Weeks '+(p.weeks[0]+1)+'–'+p.weeks[1]+'</span></div><p class="goal">'+esc(p.goal)+'</p></div><div class="phase-count num" id="cnt-'+p.id+'"></div></div>';
+  var ul=el("ul",{class:"checks"});
+  p.items.forEach(function(it,j){
+    var id=p.id+"-"+j;
+    var li=el("li",{id:"li-"+id});
+    li.innerHTML='<input type="checkbox" id="'+id+'"><label for="'+id+'"><span class="t">'+esc(it[0])+'</span><span class="d">'+esc(it[1])+'</span></label>';
+    ul.appendChild(li);
+  });
+  body.appendChild(ul);
+  body.appendChild(el("div",{class:"phase-foot"},'<div><b>Output</b>'+esc(p.out)+'</div><div><b>Owners</b>'+esc(p.owner)+'</div>'));
+  wrap.appendChild(mark); wrap.appendChild(body); host.appendChild(wrap);
+});
+host.addEventListener("change",function(e){
+  if(e.target && e.target.type==="checkbox"){ state[e.target.id]=e.target.checked; save(); refresh(); }
+});
+
+function refresh(){
+  var total=0,done=0;
+  PHASES.forEach(function(p){
+    var d=0;
+    p.items.forEach(function(it,j){ var id=p.id+"-"+j; var on=!!state[id]; var cb=document.getElementById(id); if(cb) cb.checked=on; document.getElementById("li-"+id).classList.toggle("is-done",on); if(on) d++; });
+    total+=p.items.length; done+=d;
+    document.getElementById("cnt-"+p.id).textContent=d+" / "+p.items.length;
+    document.getElementById("phase-"+p.id).classList.toggle("done",d===p.items.length);
+  });
+  var pct=total?Math.round(done/total*100):0;
+  document.getElementById("pctBig").textContent=pct+"%";
+  document.getElementById("pctBar").style.width=pct+"%";
+  document.getElementById("pctText").textContent=done+" of "+total+" tasks done";
+}
+refresh();
+
+var toastT;
+function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove("show");},1800); }
+function copyText(txt,fallbackEl){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){toast("Copied");},function(){fallback();});
+  } else fallback();
+  function fallback(){ if(fallbackEl){ var r=document.createRange(); r.selectNodeContents(fallbackEl); var s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selected. Press Ctrl/Cmd + C to copy"); } else toast("Copy is blocked here"); }
+}
+document.getElementById("copyStatus").addEventListener("click",function(){
+  var lines=["Singapore Entry Roadmap – status "+new Date().toLocaleDateString("en-IN"),""];
+  PHASES.forEach(function(p,i){
+    var d=p.items.filter(function(it,j){return state[p.id+"-"+j];}).length;
+    lines.push("Phase "+i+" – "+p.name+": "+d+"/"+p.items.length);
+    p.items.forEach(function(it,j){ lines.push("  ["+(state[p.id+"-"+j]?"x":" ")+"] "+it[0]); });
+    lines.push("");
+  });
+  copyText(lines.join("\n"));
+});
+var rb=document.getElementById("resetBtn"), armed=false, rt;
+rb.addEventListener("click",function(){
+  if(!armed){ armed=true; rb.textContent="Click again to clear"; rt=setTimeout(function(){armed=false; rb.textContent="Reset";},3000); return; }
+  clearTimeout(rt); armed=false; rb.textContent="Reset"; state={}; save(); refresh(); toast("Checklist cleared");
+});
+
+/* Templates */
+var TPL=[
+ {k:"A", name:"Board resolution (India)", sub:"Approve ODI in Singapore", use:"Pass at a board meeting of the Indian parent before filing Form ODI Part I. Your CS should align it with the company's articles and section 179/186 requirements.", text:
+"CERTIFIED TRUE COPY OF THE RESOLUTION PASSED BY THE BOARD OF DIRECTORS OF [INDIAN COMPANY NAME] PRIVATE LIMITED (CIN: [CIN]) AT ITS MEETING HELD ON [DATE] AT [TIME] AT [REGISTERED OFFICE ADDRESS]\n\nInvestment in a wholly owned subsidiary in Singapore\n\nRESOLVED THAT, pursuant to section 179 and section 186 of the Companies Act, 2013, the Foreign Exchange Management Act, 1999, the Foreign Exchange Management (Overseas Investment) Rules, 2022 and Regulations, 2022 and other applicable laws, consent of the Board be and is hereby accorded to incorporate a wholly owned subsidiary in Singapore under the name '[PROPOSED NAME] PTE. LTD.' or such other name as may be approved by ACRA (the 'WOS'), to carry on the business of software development, IT consulting and related services.\n\nRESOLVED FURTHER THAT the Company subscribe to [NUMBER] ordinary shares of the WOS for a total consideration not exceeding SGD [AMOUNT] (approximately INR [AMOUNT]), to be remitted in one or more tranches through [AD BANK NAME], [BRANCH], being the Authorised Dealer bank.\n\nRESOLVED FURTHER THAT the Board confirms that:\n (a) the total financial commitment is within 400% of the net worth of the Company as per its audited balance sheet as on [31 MARCH 20XX];\n (b) the Company is not on the RBI caution list or under investigation by any investigative agency;\n (c) the investment is in a bona fide business activity.\n\nRESOLVED FURTHER THAT [DIRECTOR 1, DIN] and [DIRECTOR 2, DIN] be nominated as directors of the WOS, and [NAME], a person ordinarily resident in Singapore, be appointed as the local resident director of the WOS.\n\nRESOLVED FURTHER THAT [NAME, DESIGNATION] be authorised as the Company's corporate representative to sign the incorporation documents of the WOS and to exercise voting rights on behalf of the Company.\n\nRESOLVED FURTHER THAT [NAME, DESIGNATION] and [NAME, DESIGNATION] be severally authorised to sign and file Form ODI Part I and all documents with the AD bank and the Reserve Bank of India, to make the remittance, and to do all acts necessary to give effect to this resolution.\n\nCertified true copy For [INDIAN COMPANY NAME] PRIVATE LIMITED\n\n______________________\n[NAME]\nCompany Secretary / Director\nDIN / Membership No.: [ ]"},
+ {k:"B", name:"Incorporation data sheet", sub:"Facts ACRA needs", use:"Send this filled sheet to your Singapore corporate service provider. Every field maps to the Bizfile incorporation form.", table:[
+  ["Section","Field","Example / your entry"],
+  ["Company","Proposed name (3 options)","1. Acme Tech Solutions Pte. Ltd. 2. Acme Digital Pte. Ltd. 3. Acme APAC Pte. Ltd."],
+  ["Company","Primary activity (SSIC)","62011 Development of software and applications"],
+  ["Company","Secondary activity (SSIC)","62021 Information technology consultancy"],
+  ["Company","Financial year end","31 March"],
+  ["Company","Registered office address","[Unit], [Building], Singapore [6-digit postal code]"],
+  ["Capital","Currency and amount","SGD 100,000"],
+  ["Capital","Number and class of shares","100,000 ordinary shares"],
+  ["Capital","Paid-up at incorporation","SGD 1 (balance on remittance under UIN) or full amount"],
+  ["Shareholder","Name","[Indian Company] Private Limited, 100%"],
+  ["Shareholder","Registration no. / country","CIN [ ], India"],
+  ["Shareholder","Authorised representative","[Name, designation, passport no.]"],
+  ["Director 1 (resident)","Name, ID, nationality, address","[Name], NRIC/FIN [ ], [Address in Singapore]"],
+  ["Director 2","Name, passport, nationality, address","[Name], Passport [ ], Indian, [Address in India]"],
+  ["Secretary","Name and ID","[Provided by corporate service provider]"],
+  ["Controllers","Registrable controllers","[Indian company]; individuals holding >25% of the Indian company"],
+  ["Constitution","Type","Model constitution / customised"],
+  ["Contact","Email and phone for ACRA notices","[finance@company.com], +65 [ ]"]
+ ]},
+ {k:"C", name:"Intercompany agreement", sub:"Key terms (term sheet)", use:"Covers the Indian parent delivering services to the Singapore company. A lawyer should turn this term sheet into the full agreement. The markup must match your transfer pricing policy.", table:[
+  ["Clause","Term"],
+  ["Parties","[Indian Company] Pvt Ltd (Service Provider) and [Company] Pte. Ltd. (Recipient)"],
+  ["Effective date","[Date of first client contract]"],
+  ["Scope","Software development, testing, support and maintenance for the Recipient's clients, as described in statements of work"],
+  ["Pricing","Full cost plus [15.5]% markup (aligned to India's IT services safe harbour). Full cost = salaries, benefits, overheads, depreciation allocated to Recipient work"],
+  ["Cost allocation","Time-sheet based; monthly allocation statement attached to each invoice"],
+  ["Invoicing","Monthly, in [USD / SGD / INR], within 10 days of month end"],
+  ["Payment","Within 60 days. Delayed receipts can be treated as deemed loans under TP rules, so keep to terms"],
+  ["Year-end true-up","Adjust to actual cost plus markup within 3 months of financial year end"],
+  ["IP ownership","Deliverables for clients pass to Recipient on payment; pre-existing tools stay with Service Provider and are licensed"],
+  ["Confidentiality and data","Mutual NDA; data processing schedule meeting PDPA (Singapore) and DPDP Act (India)"],
+  ["Liability","Capped at fees paid in the previous 12 months; exclude indirect loss"],
+  ["Term and termination","Initial 3 years, auto-renew; 90 days' notice"],
+  ["Governing law","Singapore law; SIAC arbitration in Singapore"]
+ ]},
+ {k:"D", name:"Employment Pass data sheet", sub:"Collect before applying", use:"Fill one per candidate. The salary and qualification lines feed the COMPASS score. Check MOM's self-assessment tool before you submit.", table:[
+  ["Field","Example / your entry","Why it matters"],
+  ["Full name (as in passport)","[ ]","Must match passport exactly"],
+  ["Date of birth / age","[ ] / 34","Minimum salary rises with age"],
+  ["Nationality","Indian","Diversity criterion in COMPASS"],
+  ["Passport no. and expiry","[ ] / at least 7 months validity",""],
+  ["Highest qualification","B.Tech Computer Science, [University], 2014","Qualifications criterion; top-tier institution scores higher"],
+  ["Job title and SSOC code","Senior Software Engineer, 25121","Skills shortage bonus for listed roles"],
+  ["Fixed monthly salary (S$)","8,500","Must meet minimum; compared to local PMET salaries for the role"],
+  ["Allowances (S$)","[ ]","Fixed allowances count; variable bonus does not"],
+  ["Start date","[ ]",""],
+  ["Job ad posted on MyCareersFuture","[Job ad ID, dates]","Needed unless exempt"],
+  ["Company local PMET headcount","[ ]","Support for local employment criterion"],
+  ["Educational certificate verification","Third-party verification report attached","MOM can request verification for degrees"],
+  ["Family accompanying","Spouse + 1 child","Dependant's Pass needs EP salary of S$6,000+"]
+ ]},
+ {k:"E", name:"Year-1 budget format", sub:"Monthly cash plan", use:"Copy into a spreadsheet and fill monthly. Fund the Singapore company with enough capital to cover the cash low point plus 3 months.", table:[
+  ["Line","Month 1","Month 2","Month 3","…","Month 12","Total"],
+  ["Revenue from clients (S$)","0","0","20,000","…","60,000",""],
+  ["Intercompany services fee to India","0","0","(15,000)","…","(42,000)",""],
+  ["Salaries – EP holders","(16,000)","(16,000)","(16,000)","…","(16,000)",""],
+  ["Salaries – local + CPF 17%","0","(7,600)","(7,600)","…","(7,600)",""],
+  ["Office / co-working","(2,550)","(2,550)","(2,550)","…","(2,550)",""],
+  ["Secretary, director, address","(400)","(400)","(400)","…","(400)",""],
+  ["Accounting, tax, audit (accrual)","(1,000)","(1,000)","(1,000)","…","(1,000)",""],
+  ["Insurance, software, travel","(1,500)","(1,500)","(1,500)","…","(1,500)",""],
+  ["Net cash flow","","","","…","",""],
+  ["Closing cash balance","","","","…","",""]
+ ]},
+ {k:"F", name:"Bank account pack", sub:"Documents checklist", use:"Banks ask for slightly different packs. This list covers what DBS, OCBC and UOB usually request for a company owned by a foreign corporate.", table:[
+  ["Document","For","Notes"],
+  ["Certificate of Incorporation and Bizfile business profile","Singapore company","Business profile not older than 3 months"],
+  ["Constitution","Singapore company","Certified true copy"],
+  ["Board resolution to open account and mandate","Singapore company","Bank's own format, signed by directors"],
+  ["Register of Registrable Controllers","Singapore company","Shows ultimate beneficial owners"],
+  ["Certificate of Incorporation, MoA and AoA","Indian parent","Certified by the CS; may need notarisation or apostille"],
+  ["Latest audited financial statements","Indian parent","Shows the group's source of funds"],
+  ["Shareholding chart up to individuals","Group","Every person owning 25% or more"],
+  ["Passport and address proof","Each director and signatory","Address proof not older than 3 months"],
+  ["Passport and address proof","Each beneficial owner over 25%",""],
+  ["Business plan and expected transactions","Singapore company","Clients, countries, monthly volumes, intercompany flows"],
+  ["Sample client contracts or LOIs","Singapore company","Helps the compliance review"]
+ ]},
+ {k:"G", name:"Transfer pricing invoice", sub:"Monthly cost-plus working", use:"Attach this calculation to each monthly invoice from India to Singapore. It is your best evidence in a TP audit in either country.", text:
+"MONTHLY SERVICE FEE COMPUTATION – COST PLUS\nService Provider : [Indian Company] Pvt Ltd\nRecipient        : [Company] Pte. Ltd.\nPeriod           : April 2027\nAgreement ref    : ICSA dated [ ]\n\nA. Direct costs (team on Recipient projects)\n   Salaries and benefits, 12 engineers x hours allocated   INR 18,40,000\n   Employer PF, gratuity, insurance                         INR  1,60,000\n                                                           -------------\n   Total direct cost                                        INR 20,00,000\n\nB. Allocated overheads\n   Rent, utilities, IT infrastructure (12/150 seats)        INR  2,10,000\n   Software licences used for Recipient work                INR    90,000\n   Management and HR support (allocation key: headcount)    INR  1,00,000\n                                                           -------------\n   Total overheads                                          INR  4,00,000\n\nC. Total cost base (A + B)                                  INR 24,00,000\nD. Markup at 15.5% on C                                     INR  3,72,000\n                                                           -------------\nE. Service fee for the month (C + D)                        INR 27,72,000\n\nGST: export of services, zero-rated under LUT no. [ ]\nCurrency: invoiced in [INR / USD at RBI reference rate on invoice date]\nPayment due: within 60 days\n\nPrepared by: [Finance]   Reviewed by: [CFO]   Date: [ ]"},
+ {k:"I", name:"Advisor quote request", sub:"RFP email + scoring sheet", use:"Send the same request to 2–3 shortlisted firms so the quotes compare like for like. Then score each reply in the matrix below (score 1–5, multiply by weight).", text:
+"Subject: Request for proposal – Singapore subsidiary set-up for [Indian Company] Pvt Ltd\n\nDear [Name],\n\nWe are an Indian IT services company (about [N] employees, revenue INR [X] crore) planning to set up a wholly owned Singapore private limited company in [month, year]. Please send a fixed-fee proposal covering:\n\n1. Incorporation (name, constitution, ACRA filing, registers, share certificate)\n2. Nominee resident director for [3 / 12] months: fee, deposit, resignation terms\n3. Company secretary and registered address for 12 months\n4. Bank account opening support (bank preference: [DBS / OCBC / UOB])\n5. Employment Pass applications for [N] employees, including COMPASS review and MyCareersFuture ad\n6. Monthly bookkeeping, payroll for [N] staff, CPF, GST registration and quarterly returns\n7. Year-end: financial statements, XBRL, ECI, Form C-S/C, annual return, AGM papers\n8. Statutory audit (or confirmation we qualify for exemption)\n\nPlease include: year-1 and renewal fees, items not covered, your named team, typical response time, ACRA CSP registration number, and two references from Indian-owned clients.\n\nWe would like proposals by [date].\n\nRegards,\n[Name, Title]\n[Company] | [Phone] | [Email]\n\n--------------------------------------------------\nSCORING SHEET (1 = poor, 5 = excellent)\n\nCriterion                         Weight   Firm A   Firm B   Firm C\nTotal year-1 fee                    25%\nExperience with Indian parents      20%\nEmployment Pass capability          15%\nAccounting and tax quality          15%\nNominee director terms              10%\nResponsiveness / named team         10%\nRegional reach (future markets)      5%\nWeighted score                     100%"},
+ {k:"H", name:"Responsibility matrix", sub:"Who does what (RACI)", use:"R = does the work, A = signs off, C = consulted, I = kept informed. Agree this in Phase 0 so nothing falls between India and Singapore.", table:[
+  ["Activity","CEO","CFO (India)","Company Secretary","Indian CA","SG service provider","SG resident director"],
+  ["Board approval and ODI","A","R","R","C","I","I"],
+  ["Incorporation in Singapore","A","C","C","I","R","C"],
+  ["Bank account opening","A","R","I","I","C","R"],
+  ["Capital remittance and ODI reporting","I","A","C","R","I","I"],
+  ["Intercompany agreement and TP policy","A","R","C","R","C","C"],
+  ["EP applications and hiring","A","C","I","I","R","C"],
+  ["Monthly bookkeeping and payroll","I","A","I","C","R","I"],
+  ["Singapore annual filings","I","A","I","I","R","R"],
+  ["APR and FLA in India","I","A","C","R","C","I"]
+ ]}
+];
+var list=document.getElementById("tplList"), card=document.getElementById("tplCard");
+TPL.forEach(function(t,i){
+  var b=el("button",{role:"tab",type:"button","data-i":i,id:"tpl-tab-"+t.k},'<b>'+t.k+' · '+esc(t.name)+'</b><small>'+esc(t.sub)+'</small>');
+  b.addEventListener("click",function(){ showTpl(i); });
+  list.appendChild(b);
+});
+function tplPlain(t){
+  if(t.text) return t.text;
+  return t.table.map(function(r){return r.join("\t");}).join("\n");
+}
+function showTpl(i){
+  var t=TPL[i];
+  Array.prototype.forEach.call(list.children,function(b,j){ b.classList.toggle("on",j===i); b.setAttribute("aria-selected",j===i); });
+  var bodyHtml;
+  if(t.text){ bodyHtml='<pre id="tplBody"'+(t.k==="G"?' class="fixed"':'')+'>'+esc(t.text)+'</pre>'; }
+  else{
+    var h='<div class="tbl" id="tplBody"><table><thead><tr>'+t.table[0].map(function(c){return '<th>'+esc(c)+'</th>';}).join("")+'</tr></thead><tbody>';
+    t.table.slice(1).forEach(function(r){ h+='<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>';}).join("")+'</tr>'; });
+    bodyHtml=h+'</tbody></table></div>';
+  }
+  card.innerHTML='<header><div><div class="eyebrow">Format '+t.k+'</div><h3>'+esc(t.name)+'</h3></div><button class="btn primary" id="tplCopy" type="button">'+(t.text?"Copy text":"Copy as table (paste into Excel)")+'</button></header><p class="use">'+esc(t.use)+'</p>'+bodyHtml;
+  document.getElementById("tplCopy").addEventListener("click",function(){ copyText(tplPlain(t),document.getElementById("tplBody")); });
+}
+showTpl(0);
+
+
+/* Advisors */
+var ADV=[
+ {n:"ScaleX Business",cat:"both",tier:"rec",sub:"Cross-border corporate, tax & compliance consultancy · Singapore, India, UAE",web:"https://scalexbusiness.com/singapore/",
+  hyd:"India team handles ODI and Indian compliance; India office city not published (WhatsApp +91 90369 24170). Ask about Hyderabad meetings",
+  sg:"ScaleX Business Pte Ltd, UEN 201833900G (since Oct 2018) · ACRA filing agent FA20190135 · 7 Temasek Boulevard, #12-07 Suntec Tower One",
+  best:"Indian companies wanting one firm for the ODI filing and the Singapore company",
+  why:["Covers RBI ODI compliance for Indian founders and the Singapore side: incorporation, nominee director, secretary, registered address, bank account help","Also offers accounting, Employment Pass advisory, tax, transfer pricing, XBRL and payroll, so it can stay with you after set-up","Says it has set up 500+ businesses; named clients include Instamojo, Villgro and Zippo","Advertises Singapore incorporation within 1 day once documents are ready"],
+  watch:["No published package prices; get a written fixed-fee quote","Small firm (directory lists revenue under S$1 million), so confirm who handles your file and their capacity","States it does not issue or guarantee visas; EP outcomes rest with MOM"],
+  cost:"Quote only"},
+ {n:"CorporateServices.com",cat:"sg",tier:"rec",sub:"Singapore incorporation & compliance platform · since 2018",web:"https://www.corporateservices.com/singapore/incorporation-services/",
+  hyd:"No India office; your CA files the ODI in India",
+  sg:"CorporateServices.com Pte Ltd · platform used by licensed corporate service provider teams",
+  best:"Clear, fixed price for the Singapore side",
+  why:["Foreigner package S$3,100 (S$3,345 with GST): incorporation with government fees, 1-year nominee resident director or an Employment Pass filing, 1-year secretary and registered address, bank account help","Incorporation within 1 business day after documents are signed","Rated 5.0 on 109 Google reviews (shown on its site); dedicated team rather than chat agents","Local package S$1,182 and transfer package S$1,411 if you later switch providers"],
+  watch:["No help with the Indian ODI filing","Nominee director OR EP filing in the package, not both; check the nominee deposit and resignation terms","Ask which licensed CSP entity signs your contract"],
+  cost:"S$3,100 foreigner package (S$3,345 incl. GST)"},
+ {n:"Patron Accounting",cat:"both",tier:"alt",sub:"Indian CA & CS firm · Pune, Mumbai, Delhi, Gurugram",web:"https://www.patronaccounting.com/company-registration-in-singapore",
+  hyd:"Pune, Mumbai, Delhi and Gurugram; no Hyderabad office listed",
+  sg:"Works through Singapore partners for nominee director, secretary and address",
+  best:"Companies wanting a large Indian CA/CS team to run ODI end to end",
+  why:["Full FEMA ODI work: Form ODI, AD bank coordination and yearly APR filing","Handles ACRA name reservation and filing, nominee director, secretary, address and bank guidance","Says it has 15+ years' experience, 10,000+ clients and 4.9 on 500+ Google reviews","Incorporation in 1–3 working days once documents are ready"],
+  watch:["Highest published fee: from S$4,999 plus government fees","Nominee director, secretary and address are billed on top","Confirm the Singapore partner firm by name"],
+  cost:"From S$4,999 + government fees and extras"},
+ {n:"IncorpX",cat:"both",tier:"bud",sub:"Online registration platform · Synerdyn Pvt Ltd, Tamil Nadu",web:"https://www.incorpx.io/singapore-company-registration",
+  hyd:"Registered office in Tiruvallur, Tamil Nadu; fully online",
+  sg:"Facilitation platform; works with Singapore service providers",
+  best:"Lowest-cost start for a very simple set-up",
+  why:["From ₹39,999 professional fees: ACRA registration, 1-year registered address and compliance officer, nominee director if needed, bank help, IRAS registration","1–2 business days for standard applications","Publishes detailed ODI and FEMA guides; says it has helped 700+ Singapore companies"],
+  watch:["Not a Singapore corporate service provider itself; ask who the Singapore CSP is","Check whether ODI filing is included or extra","Google rating covers all its services, not Singapore only"],
+  cost:"From ₹39,999 + government fees"},
+ {n:"Leftright Corporate",cat:"sg",tier:"bud",sub:"Singapore corporate service provider",web:"https://leftrightcorp.com/singapore-company-nominee-director/checkout/",
+  hyd:"No India office; your CA files the ODI in India",
+  sg:"Leftright Corporate Pte Ltd · ACRA filing agent FA20200114 · 190 Clemenceau Avenue, #06-01",
+  best:"Cheapest published package with a full-year nominee director",
+  why:["S$2,495 includes a 12-month nominee director, 12-month secretary with annual return support, and 12-month registered address with mail handling","Simple online order; forms arrive by email"],
+  watch:["Nominee security deposit set case by case at KYC","No ODI or India support","Less information published about team size and reviews"],
+  cost:"S$2,495 (nominee director package)"}
+];
+var CATS=[["all","All"],["both","India + Singapore in one firm"],["sg","Singapore side only"]];
+var TIER={rec:["rec","Recommended"],alt:["alt","Good alternative"],bud:["bud","Budget"],spec:["spec","Specialist"]};
+var CATN={both:"India + Singapore",sg:"Singapore only"};
+var AKEY="sgroadmap.adv.v3", short={};
+try{ short=JSON.parse(localStorage.getItem(AKEY)||"{}")||{}; }catch(e){ short={}; }
+function saveShort(){ try{ localStorage.setItem(AKEY,JSON.stringify(short)); }catch(e){} }
+var chips=document.getElementById("advChips"), grid=document.getElementById("advGrid"), curCat="all";
+CATS.forEach(function(c){ var b=el("button",{type:"button","data-c":c[0],"aria-pressed":c[0]==="all"?"true":"false"},c[1]); b.addEventListener("click",function(){ curCat=c[0]; Array.prototype.forEach.call(chips.children,function(x){x.setAttribute("aria-pressed",x.getAttribute("data-c")===curCat?"true":"false");}); drawAdv(); }); chips.appendChild(b); });
+function drawAdv(){
+  grid.innerHTML="";
+  ADV.forEach(function(a,i){
+    if(curCat!=="all" && a.cat!==curCat) return;
+    var t=TIER[a.tier], id="adv-"+i;
+    var c=el("article",{class:"adv"+(short[a.n]?" short":"")});
+    c.innerHTML='<div class="adv-head"><div><h4>'+esc(a.n)+'</h4><div class="sub">'+esc(a.sub)+'</div></div></div>'+
+      '<div class="adv-tags"><span class="pill '+t[0]+'">'+t[1]+'</span><span class="pill '+(a.cat==="in"?"in":"sg")+'">'+CATN[a.cat]+'</span></div>'+
+      '<div class="adv-body"><div class="addr"><b class="l">India presence</b>'+esc(a.hyd)+'</div><div><b class="l">Singapore entity</b>'+esc(a.sg)+'</div><div><b class="l">Best for</b>'+esc(a.best)+'</div><div><b class="l">Why choose</b><ul>'+a.why.map(function(w){return '<li>'+esc(w)+'</li>';}).join("")+'</ul></div><div><b class="l">Watch out</b><ul>'+a.watch.map(function(w){return '<li>'+esc(w)+'</li>';}).join("")+'</ul></div></div>'+
+      '<div class="adv-foot"><span class="cost">'+esc(a.cost)+'</span><span style="display:flex;gap:14px;align-items:center">'+(a.web?'<a href="'+a.web+'" target="_blank" rel="noopener">Website</a>':'')+'<label for="'+id+'"><input type="checkbox" id="'+id+'"'+(short[a.n]?" checked":"")+'> Shortlist</label></span></div>';
+    c.querySelector("input").addEventListener("change",function(e){ if(e.target.checked) short[a.n]=1; else delete short[a.n]; saveShort(); c.classList.toggle("short",e.target.checked); advCount(); });
+    grid.appendChild(c);
+  });
+  var cards=grid.children; if(cards.length%2===1) cards[cards.length-1].classList.add("span");
+  advCount();
+}
+function advCount(){ var n=Object.keys(short).length; document.getElementById("advCount").textContent=n+" shortlisted"; }
+drawAdv();
+document.getElementById("advCopy").addEventListener("click",function(){
+  var names=ADV.filter(function(a){return short[a.n];});
+  if(!names.length){ toast("Tick Shortlist on at least one firm"); return; }
+  copyText("Set-up partner shortlist – Singapore\n\n"+names.map(function(a){return "- "+a.n+" ("+CATN[a.cat]+")\n  India: "+a.hyd+"\n  Singapore: "+a.sg+"\n  Best for: "+a.best+"\n  Cost: "+a.cost+(a.web?"\n  "+a.web:"");}).join("\n\n"));
+});
+var ACH=[
+ ["Registered with ACRA as a corporate service provider","Required under the Corporate Service Providers Act 2024. Search the firm on Bizfile before you sign."],
+ ["Has done Indian-parent subsidiaries before","Ask for 2–3 references from Indian IT companies and speak to one of them."],
+ ["Who files the ODI in India is agreed","Either the provider's India team or your own CA. Put it in the engagement letter so nothing is missed before money is sent."],
+ ["Named team for your file","Know the manager who will actually do the work, and how meetings will run (online or in person)."],
+ ["Nominee director terms are clear","Security deposit, notice period to resign, indemnity, what the nominee will and won't sign."],
+ ["Employment Pass support is included","Who runs COMPASS checks, MyCareersFuture ads, appeals, renewals and Dependant's Passes."],
+ ["Accounting covers XBRL, GST and IR8A","Ask which are in the base fee and which cost extra."],
+ ["Fixed fees in writing","Get a fee schedule for year 1 and renewal; avoid open hourly billing for routine work."],
+ ["Named team and response time","Know your account manager and the agreed reply time (e.g. 1 working day)."],
+ ["Data security and records handover","Where records are stored, and how you get them back if you switch provider."]
+];
+var ac=document.getElementById("advChecks");
+ACH.forEach(function(it,j){ var id="advchk-"+j; var li=el("li",{id:"li-"+id}); li.innerHTML='<input type="checkbox" id="'+id+'"><label for="'+id+'"><span class="t">'+esc(it[0])+'</span><span class="d">'+esc(it[1])+'</span></label>'; ac.appendChild(li); var cb=li.querySelector("input"); cb.checked=!!state[id]; li.classList.toggle("is-done",cb.checked); cb.addEventListener("change",function(){ state[id]=cb.checked; save(); li.classList.toggle("is-done",cb.checked); }); });
+
+/* Costs */
+var ids=["fx","epCount","epSal","localCount","localSal","office","nominee","audit"];
+ids.forEach(function(id){ var n=document.getElementById(id); n.addEventListener("input",calc); n.addEventListener("change",calc); });
+function fmt(n){ return Math.round(n).toLocaleString("en-SG"); }
+function inr(n,fx){ var v=n*fx; return v>=1e7 ? "≈ ₹"+(v/1e7).toFixed(2)+" crore" : "≈ ₹"+(v/1e5).toFixed(1)+" lakh"; }
+function calc(){
+  var fx=+document.getElementById("fx").value||68;
+  var ep=Math.max(0,+document.getElementById("epCount").value||0);
+  var epS=Math.max(0,+document.getElementById("epSal").value||0);
+  var lc=Math.max(0,+document.getElementById("localCount").value||0);
+  var lcS=Math.max(0,+document.getElementById("localSal").value||0);
+  var off=document.getElementById("office").value;
+  var nom=document.getElementById("nominee").checked;
+  var aud=document.getElementById("audit").checked;
+  var heads=ep+lc;
+  var seatRate={virtual:0,hot:450,fixed:850,private:1100}[off];
+  var one=[
+    ["ACRA name + incorporation","Government fees",315],
+    ["Incorporation service package","Provider fee, KYC, constitution",1200],
+    ["ODI and FEMA work in India","CA / CS fees (≈ ₹1 lakh)",Math.round(100000/fx)],
+    ["Intercompany agreement + TP policy","Singapore lawyer / TP advisor",4000],
+    ["Employment Pass fees","S$330 x "+ep+" pass(es)",330*ep],
+    ["Office deposit","2 months of seat cost",seatRate*heads*2],
+    ["Relocation support","S$5,000 per EP holder",5000*ep]
+  ];
+  if(nom) one.push(["Nominee director security deposit","Refundable, typical",3000]);
+  var run=[
+    ["Company secretary","Annual retainer",1200],
+    ["Registered address",off==="virtual"?"Annual fee":"Included with office",off==="virtual"?400:0],
+    ["Office / co-working",off==="virtual"?"None":("S$"+seatRate+" x "+heads+" seat(s) x 12"),seatRate*heads*12],
+    ["Bookkeeping, GST and tax filing","Monthly service",4800],
+    ["Payroll service","S$30 per employee per month",30*heads*12],
+    ["Insurance (PI, cyber, WICA)","Annual premiums",3500],
+    ["Software, phones, bank charges","Annual",3000]
+  ];
+  if(nom) run.push(["Nominee resident director","Until an EP holder takes over",3000]);
+  if(aud) run.push(["Statutory audit","Small company exemption may apply if the group is small",8000]);
+  var sal=[
+    ["EP salaries",ep+" x S$"+fmt(epS)+" x 12",ep*epS*12],
+    ["Local salaries",lc+" x S$"+fmt(lcS)+" x 12",lc*lcS*12],
+    ["Employer CPF (17%)","Locals only, capped at S$8,000 wage ceiling",lc*Math.min(lcS,8000)*0.17*12],
+    ["Skills Development Levy","0.25%, max S$11.25 per employee per month",(ep*Math.min(Math.max(epS*0.0025,2),11.25)+lc*Math.min(Math.max(lcS*0.0025,2),11.25))*12]
+  ];
+  function sum(a){ return a.reduce(function(s,r){return s+r[2];},0); }
+  var tOne=sum(one), tRun=sum(run), tSal=sum(sal);
+  var rows="";
+  function block(title,arr,tot){ rows+='<tr class="sub"><td>'+title+'</td><td class="cost-basis"></td><td class="amt">'+fmt(tot)+'</td></tr>'; arr.forEach(function(r){ rows+='<tr><td>'+esc(r[0])+'<small class="b">'+esc(r[1])+'</small></td><td class="cost-basis">'+esc(r[1])+'</td><td class="amt">'+fmt(r[2])+'</td></tr>'; }); }
+  block("One-time set-up",one,tOne); block("Annual running costs",run,tRun); block("People (year 1)",sal,tSal);
+  document.getElementById("costRows").innerHTML=rows;
+  document.getElementById("tOne").textContent="S$"+fmt(tOne); document.getElementById("tOneInr").textContent=inr(tOne,fx);
+  document.getElementById("tRun").textContent="S$"+fmt(tRun); document.getElementById("tRunInr").textContent=inr(tRun,fx);
+  var all=tOne+tRun+tSal;
+  document.getElementById("tAll").textContent="S$"+fmt(all); document.getElementById("tAllInr").textContent=inr(all,fx);
+}
+calc();
+
+/* Calendar */
+var CAL=[
+ ["Every month",[["sg","CPF contributions and SDL by the 14th of the following month"],["in","Raise intercompany service invoice to Singapore; reconcile receipts"],["sg","GST return quarterly, 1 month after quarter end (if registered)"]]],
+ ["April – June",[["sg","Close books for year ending 31 March"],["sg","ECI to IRAS by 30 June (waived if revenue ≤ S$5m and ECI is nil)"],["in","Start audit of Indian parent; collect Singapore unaudited figures for consolidation"]]],
+ ["July – September",[["in","FLA return to RBI by 15 July"],["sg","Statutory audit of Singapore company (if not exempt)"],["sg","AGM by 30 September (6 months after year end), or send financial statements to members within 5 months to dispense with it"]]],
+ ["October – December",[["sg","Annual return on Bizfile by 31 October (7 months after year end)"],["in","Transfer pricing report and income-tax return of parent (dates as notified)"],["sg","Form C-S / C to IRAS by 30 November"],["in","APR in Form ODI Part II through AD bank by 31 December"]]],
+ ["January – March",[["sg","Employer IR8A / AIS for staff salaries by 1 March"],["sg","Review EP renewals 6 months before expiry; note new 2027 salary floors"],["in","Review TP margin and safe harbour election for next year; year-end true-up"]]]
+];
+var cal=document.getElementById("cal");
+CAL.forEach(function(m){
+  var d=el("div",{class:m[0]==="Every month"?"m wide":"m"});
+  d.innerHTML='<h3>'+esc(m[0])+'</h3><ul>'+m[1].map(function(x){return '<li><span class="pill '+x[0]+'">'+(x[0]==="sg"?"SG":"IN")+'</span><span>'+esc(x[1])+'</span></li>';}).join("")+'</ul>';
+  cal.appendChild(d);
+});
+
+/* Nav highlight */
+var links=[].slice.call(document.querySelectorAll("nav.rail a"));
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(ents){ ents.forEach(function(en){ if(en.isIntersecting){ links.forEach(function(a){ a.classList.toggle("on",a.getAttribute("href")==="#"+en.target.id); }); } }); },{rootMargin:"-40% 0px -55% 0px"});
+  document.querySelectorAll("section.block").forEach(function(s){ io.observe(s); });
+}
+})();
+</script>
+</body></html>
